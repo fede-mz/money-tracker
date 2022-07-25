@@ -20,10 +20,13 @@ SQLite 3
 * `bundle exec rake db:create db:migrate db:seed`
 * `yarn`
 
-
 ## Start the Server
 * `bundle exec rails s`
 
 ## Testing
 * `bundle exec rake db:test:prepare`
 * `bundle exec rails test`
+
+## Future Features
+* Add a way to record annual payments and reminders
+* Make sure that for the meaning average, annual payments are proportionally computed
