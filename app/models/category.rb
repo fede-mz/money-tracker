@@ -4,4 +4,5 @@ class Category < ApplicationRecord
   monetize :budget_cents
 
   validates :title, presence: true
+  validates :title, uniqueness: { scope: :user_id }
 end
