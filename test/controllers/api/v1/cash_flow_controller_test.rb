@@ -34,7 +34,7 @@ class Api::V1::CashFlowControllerTest < ActionDispatch::IntegrationTest
     )
 
     # login
-    post '/api/v1/auth/login.json', params: {email: "fede.mz@gmail.com", password: "password1"}
+    post '/api/v1/auth/login.json', params: { email: "fede.mz@gmail.com", password: "password1" }
     body = JSON.parse(response.body)
     token = body['token']
 
@@ -46,5 +46,10 @@ class Api::V1::CashFlowControllerTest < ActionDispatch::IntegrationTest
     assert_equal('€-12,23', body['cashFlows'][0]['amount'], 'first result should be the first we created')
     assert_not_empty(body['cashFlows'][1]['tags'].select { |tag| tag['title'] == 'Limpieza' }, 'second result should have a tag created')
 
+    # get cash flow for previous month
+    get '/api/v1/cash_flows.json', params: { date: 1.month.ago.strftime("%Y-%m-%d") }, headers: { Authorization: token }
+    body = JSON.parse(response.body)
+
+    assert_equal(1, body['cashFlows'].size, 'should return 1 cash_flows for the previous month')
   end
 end
