@@ -17,17 +17,17 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-02,Ropa,Deportiva;Zapatillas,,-65.29,no,Banco BBVA
 2022-07-02,Ropa,Deportiva,,-6.34,no,Banco BBVA
 2022-07-02,Entretenimiento,Comida;Salida,,-48.27,no,Banco BBVA
-2022-07-03,Super,Comida,,-70.9,no,Banco BBVA
-2022-07-03,Super,Hogar,,-24.56,no,Banco BBVA
-2022-07-03,Super,Mascota,,-26.89,no,Banco BBVA
+2022-07-03,Supermercado,Comida,,-70.9,no,Banco BBVA
+2022-07-03,Supermercado,Hogar,,-24.56,no,Banco BBVA
+2022-07-03,Supermercado,Mascota,,-26.89,no,Banco BBVA
 2022-07-03,Entretenimiento,Comida;Salida,helado,-12.35,no,Banco BBVA
-2022-07-04,Super,Comida,,-17.7,no,Banco BBVA
-2022-07-07,Super,Comida,,-31.45,no,Banco BBVA
+2022-07-04,Supermercado,Comida,,-17.7,no,Banco BBVA
+2022-07-07,Supermercado,Comida,,-31.45,no,Banco BBVA
 2022-07-07,Otros,Peluqueria,,-46,no,Banco BBVA
 2022-07-08,Movilidad,Arreglo,cubierta,-22,no,Banco BBVA
 2022-07-08,Entretenimiento,Comida;Salida,,-64.56,no,Banco BBVA
-2022-07-09,Super,Comida,,-59.95,no,Banco BBVA
-2022-07-09,Super,Hogar,,-11.14,no,Banco BBVA
+2022-07-09,Supermercado,Comida,,-59.95,no,Banco BBVA
+2022-07-09,Supermercado,Hogar,,-11.14,no,Banco BBVA
 2022-07-15,Otros,Regalo,,-30,no,Efectivo
 2022-07-15,Entretenimiento,Bowling;Salida,,-24.72,no,Banco BBVA
 2022-07-15,Entretenimiento,Salida;Videojuegos,,,no,Banco BBVA
@@ -35,5 +35,5 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-15,Balance,,transferencia,-1200,yes,Banco Sabadell
 2022-07-16,Balance,,transferencia,1200,no,Banco BBVA
 2022-07-16,Movilidad,Combustible,,-107.63,no,Banco BBVA
-2022-07-17,Super,Comida,,-39.9,no,Banco BBVA
-2022-07-19,Super,Comida,,-13.14,no,Banco BBVA
+2022-07-17,Supermercado,Comida,,-39.9,no,Banco BBVA
+2022-07-19,Supermercado,Comida,,-13.14,no,Banco BBVA

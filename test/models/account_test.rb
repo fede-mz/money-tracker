@@ -42,4 +42,28 @@ class AccountTest < ActiveSupport::TestCase
     assert(account.save, "Account couldn't be saved")
 
   end
+
+  test 'Balance and snapshots' do
+    create_initial_data
+    create_cash_flow
+    assert_equal(1426_62, @account.balance.cents, 'balance calculated')
+    assert_not_empty(@account.account_snapshots, 'snapshot should be created')
+    CashFlow.create!(
+      account: @account,
+      category: @pay_category,
+      flow_date: 1.month.ago,
+      amount: Money.new(-26_62, 'EUR')
+    )
+    assert_empty(@account.account_snapshots, 'snapshot should be removed')
+    assert_equal(1400_00, @account.balance.cents, 'balance calculated')
+    assert_not_empty(@account.account_snapshots, 'snapshot should be created')
+    CashFlow.create!(
+      account: @account,
+      category: @pay_category,
+      flow_date: Date.current,
+      amount: Money.new(-10_00, 'EUR')
+    )
+    assert_not_empty(@account.account_snapshots, 'snapshot should still exists')
+    assert_equal(1390_00, @account.balance.cents, 'balance calculated')
+  end
 end

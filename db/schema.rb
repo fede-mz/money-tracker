@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
     t.integer "balance_cents", default: 0, null: false
     t.string "balance_currency", default: "EUR", null: false
     t.index ["account_id"], name: "index_account_snapshots_on_account_id"
+    t.index ["snapshot_date"], name: "index_account_snapshots_on_snapshot_date"
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -29,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
   create_table "cash_flows", force: :cascade do |t|
     t.integer "account_id"
     t.integer "category_id"
+    t.string "description"
     t.date "flow_date", null: false
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "EUR", null: false
@@ -37,6 +39,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_cash_flows_on_account_id"
     t.index ["category_id"], name: "index_cash_flows_on_category_id"
+    t.index ["flow_date"], name: "index_cash_flows_on_flow_date"
   end
 
   create_table "cash_flows_tags", id: false, force: :cascade do |t|

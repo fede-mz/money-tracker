@@ -15,8 +15,9 @@ CSV.foreach(File.open('./db/seeds/cash_flow.csv'), headers: true) do |row|
   cash_flow = CashFlow.create!(
     account: account,
     category: category,
+    description: row['Description'],
     flow_date: row['Date'],
-    amount: Money.new(row['Amount'].to_f*100, user.primary_currency),
+    amount: Money.new(row['Amount'].to_f * 100, user.primary_currency),
     is_balance: row['Is For Balance?'] == 'yes'
   )
   row['Tags']&.split(';')&.each do |tag|
