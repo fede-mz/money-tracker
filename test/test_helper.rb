@@ -34,7 +34,7 @@ class ActiveSupport::TestCase
         amount: Money.new(amount, 'EUR')
       )
     end
-    %w[Comida Limpieza].each { |tag| cash_flows[1].tags << Tag.create!(user: @user, title: tag) }
+    %w(Comida Limpieza).each { |tag| cash_flows[1].tags << Tag.create!(user: @user, title: tag) }
   end
 
   def login_user

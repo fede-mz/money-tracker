@@ -73,4 +73,24 @@ class Api::V1::CashFlowsControllerTest < ActionDispatch::IntegrationTest
     assert_not_empty(body['errors']['flow_date'], 'should return errors')
     assert_not_empty(body['errors']['amount_cents'], 'should return errors')
   end
+
+  test 'cash_flow by category' do
+    create_cash_flow
+    pay_category = Category.create!(user: @user, title: 'Movilidad')
+    CashFlow.create!(
+      account: @account,
+      category: pay_category,
+      flow_date: Date.current,
+      amount: Money.new(-15_00, 'EUR')
+    )
+
+    token = login_user
+
+    get '/api/v1/cash_flows/by_category.json', headers: { Authorization: token }
+    assert_response :success
+    body = JSON.parse(response.body)
+
+    assert_equal(-8838, body['outcomes']['totalCents'], 'should return outcomes total')
+    assert_equal(2, body['outcomes']['byCategories'].size, 'should return outcomes')
+  end
 end

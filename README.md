@@ -28,5 +28,8 @@ SQLite 3
 * `bundle exec rails test`
 
 ## Future Features
+* Outcomes by category, allow filtering by tags
+* Convert currencies to show a single chart
 * Add a way to record annual payments and reminders
+* Calculate an Average (for outcomes) and compare with the budget 
 * Make sure that for the meaning average, annual payments are proportionally computed

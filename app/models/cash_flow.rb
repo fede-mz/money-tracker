@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CashFlow < ApplicationRecord
   belongs_to :account
   belongs_to :category
@@ -10,8 +12,13 @@ class CashFlow < ApplicationRecord
   validate :amount_currency_matches
 
   scope :for_current_user, ->(user) { includes(:account).where(accounts: { user: user }) }
-  scope :in_range, ->(from_date, to_date) { where("flow_date >= ? and flow_date <= ?", from_date, to_date) }
+  scope :in_range, ->(from_date, to_date) { where('flow_date >= ? and flow_date <= ?', from_date, to_date) }
 
+  # skip records used for balancing Accounts
+  scope :incomes, -> { where('amount_cents > 0').where(is_balance: false) }
+  scope :outcomes, -> { where('amount_cents < 0').where(is_balance: false) }
+
+  # when a new cash flow is created, some of the snapshots can become invalid.
   after_save :invalidate_snapshots
 
   private

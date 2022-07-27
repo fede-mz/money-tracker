@@ -1,15 +1,9 @@
 class Api::V1::CashFlowsController < ApplicationController
 
+  # This action can receive params: from_date, to_date
+  #  if not, date range is set for this month
   def index
-    from_date = Date.current.beginning_of_month
-    to_date = Date.current.end_of_month
-    if params[:date].present?
-      date_param = Date.parse(params[:date])
-      if date_param.is_a?(Date)
-        from_date = date_param.beginning_of_month
-        to_date = date_param.end_of_month
-      end
-    end
+    from_date, to_date = params_date_range
     @cash_flows = CashFlow.includes(:category)
                           .for_current_user(@current_user)
                           .in_range(from_date, to_date)
@@ -45,6 +39,26 @@ class Api::V1::CashFlowsController < ApplicationController
 
   end
 
+  # cash flow by category
+  # This action can receive params: from_date, to_date and currency,
+  #  if not, date range is set for this month and currency to the primary_currency
+  def by_category
+    from_date, to_date = params_date_range
+    @currency = params[:currency].present? ? params[:currency] : @current_user.primary_currency
+    @outcomes = CashFlow.outcomes
+                        .for_current_user(@current_user)
+                        .in_range(from_date, to_date)
+                        .where(amount_currency: @currency)
+                        .group(:category_id)
+                        .sum(:amount_cents)
+    @incomes = CashFlow.incomes
+                       .for_current_user(@current_user)
+                       .in_range(from_date, to_date)
+                       .where(amount_currency: @currency)
+                       .group(:category_id)
+                       .sum(:amount_cents)
+  end
+
   private
   def cash_flow_params
     params.require(:cash_flow).permit(:account_id,
@@ -54,5 +68,20 @@ class Api::V1::CashFlowsController < ApplicationController
                                       :amount,
                                       :is_balance,
                                       tags: [:title])
+  end
+
+  # return params or default values for from_date and to_date
+  # default values are a range for this (current) month
+  def params_date_range
+    from_date = Date.current.beginning_of_month
+    to_date = Date.current.end_of_month
+    if params[:date].present?
+      date_param = Date.parse(params[:date])
+      if date_param.is_a?(Date)
+        from_date = date_param.beginning_of_month
+        to_date = date_param.end_of_month
+      end
+    end
+    [from_date, to_date]
   end
 end

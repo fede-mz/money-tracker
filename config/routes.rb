@@ -6,8 +6,12 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       post 'auth/login'
-      resources :cash_flows, only: [:index, :create]
       resources :accounts, only: [:index, :show]
+      resources :categories, only: [:index]
+      resources :tags, only: [:index]
+      resources :cash_flows, only: [:index, :create] do
+        get 'by_category', on: :collection
+      end
     end
   end
 
