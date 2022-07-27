@@ -59,7 +59,7 @@ function MoneyTracker() {
             <ul>
                 {cashFlows.map(cashFlow =>
                     <li key={cashFlow.id}>
-                        {cashFlow.flow_date}
+                        {cashFlow.flowDate}
                         {cashFlow.account.title} {cashFlow.category.title}
                         tags: {cashFlow.tags.map(tag => tag.title).join(', ')}
                         <span>
