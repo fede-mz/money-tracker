@@ -1,10 +1,8 @@
 Date,Category,Tags,Description,Amount,Is For Balance?,Account
-2022-06-30,Balance,,,-252.5,yes,Efectivo
-2022-06-30,Balance,,,-3135.2,yes,Banco Sabadell
-2022-06-30,Balance,,,-1250.99,yes,Banco BBVA
-2022-06-30,Balance,,,0,yes,Tarjeta Credito
-2022-06-30,Balance,,,0,yes,Inversiones
-2022-07-01,Alquiler,Piso,,550,no,Banco Sabadell
+2022-06-30,Balance,,,252.5,yes,Efectivo
+2022-06-30,Balance,,,3135.2,yes,Banco Sabadell
+2022-06-30,Balance,,,1250.99,yes,Banco BBVA
+2022-07-01,Alquiler,Piso,,-550,no,Banco Sabadell
 2022-07-01,Servicios,Piso;Luz,,-98.55,no,Banco Sabadell
 2022-07-01,Servicios,Piso;Internet,,-48.14,no,Banco Sabadell
 2022-07-01,Nomina,Trabajo,,3000,no,Banco Sabadell
@@ -30,7 +28,7 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-09,Supermercado,Hogar,,-11.14,no,Banco BBVA
 2022-07-15,Otros,Regalo,,-30,no,Efectivo
 2022-07-15,Entretenimiento,Bowling;Salida,,-24.72,no,Banco BBVA
-2022-07-15,Entretenimiento,Salida;Videojuegos,,,no,Banco BBVA
+2022-07-15,Entretenimiento,Salida;Videojuegos,,-16,no,Banco BBVA
 2022-07-15,Movilidad,Estacionamiento;Salida,,-7,no,Banco BBVA
 2022-07-15,Balance,,transferencia,-1200,yes,Banco Sabadell
 2022-07-16,Balance,,transferencia,1200,no,Banco BBVA

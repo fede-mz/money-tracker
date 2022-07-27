@@ -4,8 +4,8 @@ import { useAuthSelector } from "../../store";
 import { history } from './../../helpers';
 
 function PrivateRoute({ children }) {
-    const { token } = useAuthSelector();
-    if (!token) {
+    const { user } = useAuthSelector();
+    if (!user) {
         // not logged in so redirect to login page with the return url
         return <Navigate to="/login" state={{ from: history.location }} />
     }

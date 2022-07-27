@@ -46,8 +46,7 @@ function buildHeader(url) {
 }
 
 function getAuthToken() {
-    const auth = store.getState().auth;
-    return auth?.token;
+    return store.getState().auth?.user?.token;
 }
 
 function getCsrfToken() {

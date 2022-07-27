@@ -6,12 +6,12 @@ import { useAuthSelector, authActions } from './../../store';
 
 function Nav() {
     const dispatch = useDispatch();
-    const { token } = useAuthSelector();
+    const { user } = useAuthSelector();
 
     const logout = () => dispatch(authActions.logout(null));
 
     // only show nav when logged in
-    if (!token) return null;
+    if (!user) return null;
     
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark">

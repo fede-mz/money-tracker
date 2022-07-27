@@ -20,22 +20,21 @@ export const authReducer = slice.reducer;
 // implementation
 
 function createInitialState() {
-    const token = localStorage.getItem('token');
     return {
         // initialize state from local storage to enable user to stay logged in
-        token: token,
+        user: JSON.parse(localStorage.getItem('user')),
         error: null
-    }
+    };
 }
 
 function createReducers() {
     return {
         logout(state = null) {
             if (state) {
-                state.token = null;
+                state.user = null;
                 state.error = null;
             }
-            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             history.navigate('/login');
         }
     }
@@ -58,9 +57,13 @@ function createExtraReducers() {
             state.error = null;
         },
         [fulfilled]: (state, action) => {
+            const user = {
+                ...action.payload.user,
+                token: action.payload.token
+            }
             // store jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('token', action.payload.token);
-            state.token = action.payload.token;
+            localStorage.setItem('user', JSON.stringify(user));
+            state.user = user;
 
             // get return url from location state or default to home page
             const { from } = history.location.state || { from: { pathname: '/' } };

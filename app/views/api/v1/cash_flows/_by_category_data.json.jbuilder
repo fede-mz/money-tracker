@@ -8,6 +8,6 @@ json.by_categories data do |detail|
     json.id detail.first
     json.title Category.find(detail.first).title
   end
-  json.amount Money.new(detail.first, @currency).format
-  json.amount_cents detail.first
+  json.amount Money.new(detail.second, @currency).format
+  json.amount_cents detail.second
 end

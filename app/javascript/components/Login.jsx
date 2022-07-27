@@ -9,12 +9,12 @@ import { history } from './../helpers';
 
 function Login() {
     const dispatch = useDispatch();
-    const { token, error } = useAuthSelector();
+    const { user, error } = useAuthSelector();
 
     useEffect(() => {
         // redirect to home if already logged in
-        if (token) history.navigate('/');
-    }, [token]);
+        if (user) history.navigate('/');
+    }, [user]);
 
     // form validation rules 
     const validationSchema = Yup.object().shape({
