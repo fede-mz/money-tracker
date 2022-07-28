@@ -32,7 +32,10 @@ class Api::V1::CashFlowsControllerTest < ActionDispatch::IntegrationTest
     assert_not_empty(body['cashFlows'][1]['tags'].select { |tag| tag['title'] == 'Limpieza' }, 'second result should have a tag created')
 
     # get cash flow for previous month
-    get '/api/v1/cash_flows.json', params: { date: 1.month.ago.strftime("%Y-%m-%d") }, headers: { Authorization: token }
+    get '/api/v1/cash_flows.json', params: {
+      from_date: 1.month.ago.beginning_of_month.strftime("%Y-%m-%d"),
+      to_date: 1.month.ago.end_of_month.strftime("%Y-%m-%d"),
+    }, headers: { Authorization: token }
     assert_response :success
     body = JSON.parse(response.body)
 

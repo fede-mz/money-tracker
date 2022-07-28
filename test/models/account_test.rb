@@ -48,7 +48,7 @@ class AccountTest < ActiveSupport::TestCase
     create_cash_flow
     assert_equal(1426_62, @account.balance.cents, 'balance calculated')
     assert_not_empty(@account.account_snapshots, 'snapshot should be created')
-    CashFlow.create!(
+    cash_flow_prev = CashFlow.create!(
       account: @account,
       category: @pay_category,
       flow_date: 1.month.ago,
@@ -57,7 +57,7 @@ class AccountTest < ActiveSupport::TestCase
     assert_empty(@account.account_snapshots, 'snapshot should be removed')
     assert_equal(1400_00, @account.balance.cents, 'balance calculated')
     assert_not_empty(@account.account_snapshots, 'snapshot should be created')
-    CashFlow.create!(
+    cash_flow_curr = CashFlow.create!(
       account: @account,
       category: @pay_category,
       flow_date: Date.current,
@@ -65,5 +65,18 @@ class AccountTest < ActiveSupport::TestCase
     )
     assert_not_empty(@account.account_snapshots, 'snapshot should still exists')
     assert_equal(1390_00, @account.balance.cents, 'balance calculated')
+    cash_flow_curr.destroy!
+    assert_not_empty(@account.account_snapshots, 'snapshot should still exists')
+    cash_flow_prev.destroy!
+    assert_empty(@account.account_snapshots, 'snapshot should be removed')
+    cash_flow_new = CashFlow.create!(
+      account: @account,
+      category: @pay_category,
+      flow_date: 1.month.ago,
+      amount: Money.new(-20_00, 'EUR')
+    )
+    @account.balance
+    cash_flow_new.update!(flow_date: Date.current)
+    assert_empty(@account.account_snapshots, 'snapshot should be removed')
   end
 end

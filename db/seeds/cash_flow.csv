@@ -7,7 +7,7 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-01,Servicios,Piso;Internet,,-48.14,no,Banco Sabadell
 2022-07-01,Nomina,Trabajo,,3000,no,Banco Sabadell
 2022-07-01,Balance,,extracción de Sabadell,-150,yes,Banco Sabadell
-2022-07-01,Balance,,extracción de Sabadell,150,no,Efectivo
+2022-07-01,Balance,,extracción de Sabadell,150,yes,Efectivo
 2022-07-02,Entretenimiento,Videojuegos;Salida,,-35,no,Efectivo
 2022-07-02,Movilidad,Combustible,,-115,no,Banco BBVA
 2022-07-02,Ropa,Diario,,-16.99,no,Banco BBVA
@@ -31,7 +31,7 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-15,Entretenimiento,Salida;Videojuegos,,-16,no,Banco BBVA
 2022-07-15,Movilidad,Estacionamiento;Salida,,-7,no,Banco BBVA
 2022-07-15,Balance,,transferencia,-1200,yes,Banco Sabadell
-2022-07-16,Balance,,transferencia,1200,no,Banco BBVA
+2022-07-16,Balance,,transferencia,1200,yes,Banco BBVA
 2022-07-16,Movilidad,Combustible,,-107.63,no,Banco BBVA
 2022-07-17,Supermercado,Comida,,-39.9,no,Banco BBVA
 2022-07-19,Supermercado,Comida,,-13.14,no,Banco BBVA

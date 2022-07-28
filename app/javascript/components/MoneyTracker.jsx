@@ -1,76 +1,40 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-    useAuthSelector,
-    useAccountsSelector, accountsActions,
-    useCashFlowsSelector, cashFlowsActions
-} from './../store';
+import { useAuthSelector } from './../store';
+import moment from "moment";
+import { Accounts, Outcomes, CashFlow } from ".";
 
 function MoneyTracker() {
     const dispatch = useDispatch();
     const { user } = useAuthSelector();
-    const { accounts } = useAccountsSelector();
-    const { cashFlows, byCategory } = useCashFlowsSelector();
-
-    useEffect(() => {
-        if (user) {
-            dispatch(accountsActions.getAll());
-            dispatch(cashFlowsActions.getAll({ fromDate: '2022-01-01', toDate: '2023-01-01' }));
-            dispatch(cashFlowsActions.getByCategory({ fromDate: '2022-01-01', toDate: '2023-01-01', currency: user.primaryCurrency }));
-        }
-    }, [dispatch, user]);
+    const [dateSelected, setNewDate] = useState(moment());
+    const month = dateSelected.format("MMM YYYY");
 
     return (
-        <div>
-            <h1>Hi!</h1>
-            <p>This will be the dashboard</p>
-            <h3>Accounts:</h3>
-            {accounts.length &&
-                <ul>
-                    {accounts.map(account =>
-                        <li key={account.id}>{account.title} (balance: {account.balance})</li>
-                    )}
-                </ul>
-            }
-            {accounts.loading && <div className="spinner-border spinner-border-sm"></div>}
-            {accounts.error && <div className="text-danger">Error loading accounts: {accounts.error.message}</div>}
-
-            <h3>Outcomes by Category:</h3>
-            {byCategory.data.outcomes &&
-            <ul>
-                {byCategory.data.outcomes.byCategories.map(outcome =>
-                    <li key={outcome.category.id}>
-                        {outcome.category.title}
-                        <span>
-                            (amount: {outcome.amount})
-                        </span>
-                    </li>
-                )}
-            </ul>
-            }
-            {byCategory.loading && <div className="spinner-border spinner-border-sm"></div>}
-            {byCategory.error && <div className="text-danger">Error loading cash flow: {byCategory.error.message}</div>}
-
-            <p>This will be the detail</p>
-            <h3>Cash Flow:</h3>
-            {cashFlows.length &&
-            <ul>
-                {cashFlows.map(cashFlow =>
-                    <li key={cashFlow.id}>
-                        {cashFlow.flowDate}
-                        {cashFlow.account.title} {cashFlow.category.title}
-                        tags: {cashFlow.tags.map(tag => tag.title).join(', ')}
-                        <span>
-                            (amount: {cashFlow.amount})
-                        </span>
-                    </li>
-                )}
-            </ul>
-            }
-            {cashFlows.loading && <div className="spinner-border spinner-border-sm"></div>}
-            {cashFlows.error && <div className="text-danger">Error loading cash flow: {cashFlows.error.message}</div>}
+        <div className="row mt-5">
+            <div className="col-12 text-center h3">
+                <button className="btn btn-link mr-3" onClick={() => setNewDate(dateSelected.add(-1, 'months').clone())}>
+                    <i className="fa fa-angle-left"></i>
+                </button>
+                <span>{month}</span>
+                <button className="btn btn-link ml-3" onClick={() => setNewDate(dateSelected.add(1, 'months').clone())}>
+                    <i className="fa fa-angle-right"></i>
+                </button>
+            </div>
+            <div className="col-lg-8 px-lg-3 col-md-12">
+                <CashFlow dateSelected={dateSelected} />
+            </div>
+            <div className="col-lg-4 px-lg-3 col-md-12">
+                <div className="row">
+                    <div className="col-lg-12 col-md-6">
+                        <Accounts />
+                    </div>
+                    <div className="col-lg-12 col-md-6 mt-lg-5">
+                        <Outcomes dateSelected={dateSelected} currency={user.primaryCurrency} />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

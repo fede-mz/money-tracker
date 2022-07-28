@@ -15,6 +15,8 @@ json.cash_flows @cash_flows do |cash_flow|
     json.id tag.id
     json.title tag.title
   end
+  json.description cash_flow.description
   json.amount cash_flow.amount.format
+  json.amount_cents cash_flow.amount_cents
   json.is_balance cash_flow.is_balance
 end

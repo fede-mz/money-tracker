@@ -5,4 +5,5 @@ json.accounts @accounts do |account|
   json.title account.title
   json.currency account.currency
   json.balance account.balance.format
+  json.balance_cents account.balance.cents
 end

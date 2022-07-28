@@ -1,0 +1,97 @@
+import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { useCashFlowsSelector, cashFlowsActions } from './../store';
+import moment from "moment";
+
+function CashFlow({ dateSelected }) {
+    const dispatch = useDispatch();
+    const { cashFlows } = useCashFlowsSelector();
+
+    useEffect(() => {
+        const fromDate = dateSelected.clone().startOf('month').format('YYYY-MM-DD');
+        const toDate = dateSelected.clone().endOf('month').format('YYYY-MM-DD');
+        dispatch(cashFlowsActions.getAll({ fromDate, toDate }));
+    }, [dispatch, dateSelected]);
+
+
+    return (
+        <div>
+            <div className="row p-3 bg-secondary text-white rounded">
+                <div className="col-md-2">
+                    Date
+                </div>
+                <div className="col-md-2">
+                    Category
+                </div>
+                <div className="col-md-2">
+                    Description
+                </div>
+                <div className="col-md-2">
+                    Account
+                </div>
+                <div className="col-md-2">
+                    Amount
+                </div>
+                <div className="col-md-2">
+                    Actions
+                </div>
+            </div>
+            {cashFlows.length == 0 &&
+            <div className="row p-3 bg-light text-dark rounded">
+                <div className="col-md-12">
+                    No Data
+                </div>
+            </div>
+            }
+            {cashFlows.length > 0 &&
+            <div className="cash-flow-detail">
+                {cashFlows.map(cashFlow =>
+                <div className="row p-3 border-bottom" key={cashFlow.id}>
+                    <div className="col-md-2">
+                        {moment(cashFlow.flowDate, 'YYYY-MM-DD').format("ddd DD MMM")}
+                    </div>
+                    <div className="col-md-2">
+                        {cashFlow.category.title} <br/>
+                        <span className="text-secondary text-smaller">
+                                {cashFlow.tags.map(tag => tag.title).join(', ')}
+                            </span>
+                    </div>
+                    <div className="col-md-2">
+                            <span className="text-secondary text-smaller">
+                                {cashFlow.description}
+                            </span>
+                    </div>
+                    <div className="col-md-2">
+                        {cashFlow.account.title}
+                    </div>
+                    <div className="col-md-2">
+                            <span className={cashFlow.isBalance ? 'text-primary' : (cashFlow.amountCents < 0 ? 'text-danger' : 'text-success')}>
+                                {cashFlow.amount}
+                            </span>
+                    </div>
+                    <div className="col-md-2">
+                        <div className="btn-group">
+                            <button className="btn btn-link">
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button className="btn btn-link">
+                                <i className="fa fa-copy"></i>
+                            </button>
+                            <button className="btn btn-link">
+                                <i className="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                )}
+            </div>
+            }
+            {cashFlows.loading && <div className="spinner-border spinner-border-sm"></div>}
+            {cashFlows.error && <div className="text-danger">Error loading cash flow: {cashFlows.error.message}</div>}
+        </div>
+    );
+}
+
+export { CashFlow };
