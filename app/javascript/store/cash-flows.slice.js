@@ -47,7 +47,18 @@ function createExtraActions() {
                     cashFlow: {
                         accountId, categoryId,
                         description, flowDate, amount, isBalance,
-                        tags: tagTitles.map( title => ({ title }))
+                        tags: (tagTitles ?? []).map( title => ({ title }))
+                    }
+                })
+        ),
+        update: createAsyncThunk(
+            `${name}/update`,
+            async ({ id, accountId, categoryId, description, flowDate, amount, isBalance, tagTitles }) =>
+                await fetchWrapper.put(`${baseUrl}/${id}.json`, {
+                    cashFlow: {
+                        accountId, categoryId,
+                        description, flowDate, amount, isBalance,
+                        tags: (tagTitles ?? []).map( title => ({ title }))
                     }
                 })
         ),
@@ -86,9 +97,28 @@ function createExtraReducers() {
         },
         [extraActions.createNew.fulfilled]: (state, action) => {
             state.loading = false;
-            state.cashFlows.push(action.payload.cashFlow);
+            state.cashFlows = _.sortBy([...state.cashFlows, action.payload.cashFlow], ['flowDate']);
         },
         [extraActions.createNew.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+        },
+        [extraActions.update.pending]: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        [extraActions.update.fulfilled]: (state, action) => {
+            state.loading = false;
+            const index = state.cashFlows.findIndex(
+                cashFlow => cashFlow.id === action.payload.cashFlow.id
+            );
+            if (index !== -1) {
+                state.cashFlows[index] = action.payload.cashFlow;
+            } else {
+                state.cashFlows.push(action.payload.cashFlow);
+            }
+        },
+        [extraActions.update.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
         },

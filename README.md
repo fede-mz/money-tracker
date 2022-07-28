@@ -1,6 +1,8 @@
 # README
 
-This application is a simple way to track income and expenses.
+This application is a simple way to track income and expenses/outcomes/payments.
+
+Note: This is for personal purposes and it's still in development.
 
 ## Versions
 * Ruby version: 3.1.2
@@ -28,8 +30,11 @@ SQLite 3
 * `bundle exec rails test`
 
 ## Future Features
+* Manage Accounts, Categories and Tags (create tags while typing in CashFlowForm)
 * Outcomes by category, allow filtering by tags
-* Convert currencies to show a single chart
-* Add a way to record annual payments and reminders
-* Calculate an Average (for outcomes) and compare with the budget 
-* Make sure that for the meaning average, annual payments are proportionally computed
+* Allow the user to have more than one currency (and convert currencies to show a single result)
+* Compare Outcome by Category with the budget
+* Add a way to record annual expenses and reminders
+* Calculate an average of outcomes for the last X months.
+  * Make sure that annual payments are proportionally computed
+  * example: car insurance is billed annually, so we should take that amount and divide by 12 to know the average 

@@ -66,7 +66,6 @@ function createExtraReducers() {
             } else {
                 state.accounts.push(action.payload.account);
             }
-            state.isLoading = false;
         },
         [extraActions.getDetail.rejected]: (state, action) => {
             state.loading = false;

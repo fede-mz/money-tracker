@@ -1,112 +1,189 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import {
-    cashFlowsActions,
-    useAccountsSelector,
-    useCategoriesSelector,
-    useTagsSelector,
-    useCashFlowsSelector
-} from './../store';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import {
+    cashFlowsActions, tagsActions, categoriesActions,
+    useAccountsSelector, useCategoriesSelector, useTagsSelector, useCashFlowsSelector
+} from './../store';
+import moment from "moment";
+import {
+    HookInput, HookRadios, HookCheckbox,
+    HookDatepicker, HookSelect, HookMultiSelect
+} from "./shared";
 
-function CashFlowForm({ isOpen, close, onSave }) {
+function CashFlowForm({ isOpen, close, onSave, cashFlow, isCopy }) {
     const dispatch = useDispatch();
     const { accounts } = useAccountsSelector();
     const { categories } = useCategoriesSelector();
     const { tags } = useTagsSelector();
     const { error } = useCashFlowsSelector();
 
-    // form validation rules 
-    const validationSchema = Yup.object().shape({
-        accountId: Yup.number().required('Account is required'),
-        categoryId: Yup.number().required('Category is required'),
-        tagTitles: Yup.array(),
-        description: Yup.string(),
-        flowDate: Yup.date().required('Date is required'),
-        amount: Yup.number().required('Amount is required'),
-        isIncome: Yup.boolean().required('Must indicate Income or Outcome'),
-        isBalance: Yup.boolean()
-    });
-    const formOptions = { resolver: yupResolver(validationSchema) };
+    useEffect(() => {
+        dispatch(tagsActions.getAll());
+        dispatch(categoriesActions.getAll());
+    }, [dispatch])
+
+    const accountOptions = accounts.map(({id, title}) => ({ value: id, label: title }));
+    const categoriesOptions = categories.map(({id, title}) => ({ value: id, label: title }));
+    const tagsOptions = tags.map(({id, title}) => ({ value: title, label: title }));
+
+    const formOptions = {
+        resolver: yupResolver(validationSchema)
+    };
+
+    // edit or copy
+    if (cashFlow) {
+        formOptions.defaultValues = {
+            id: isCopy ? null : cashFlow.id,
+            flowDate: new Date(cashFlow.flowDate),
+            accountId: cashFlow.account.id,
+            categoryId: cashFlow.category.id,
+            tagTitles: cashFlow.tags?.map(tag => tag.title),
+            description: cashFlow.description,
+            isIncome: cashFlow.amountCents > 0 ? 'true' : 'false',
+            amount: Math.abs(cashFlow.amountCents) / 100,
+            isBalance: cashFlow.isBalance ? "true" : null
+        }
+    } else {
+        formOptions.defaultValues = defaultValues;
+    }
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, formState } = useForm(formOptions);
+    const { register, handleSubmit, formState, reset, control, methods } = useForm(formOptions);
     const { errors, isSubmitting } = formState;
 
-    function onSubmit({ flowDate, accountId, categoryId, tagTitles, description, amount, isBalance }) {
-        return dispatch(cashFlowsActions.createNew({ flowDate, accountId, categoryId, tagTitles, description, amount, isBalance }))
-                .then(() => {
-                    onSave({ flowDate, accountId, categoryId, tagTitles, description, amount, isBalance });
-                    close();
-                });
+    useEffect(() => reset(formOptions.defaultValues), [cashFlow])
+
+    function onSubmit({ id, flowDate, accountId, categoryId, tagTitles, description, isIncome, amount, isBalance }) {
+        // fix timezone issue
+        flowDate = moment(flowDate).format("YYYY-MM-DD");
+        // amount sign
+        amount = Math.abs(amount) * (isIncome ? 1 : -1);
+        // is balance
+        isBalance = isBalance == null ? false : isBalance;
+        if (!!id) {
+            console.log('update');
+            // update
+            return dispatch(cashFlowsActions.update({
+                id, flowDate, accountId, categoryId, tagTitles, description, amount, isBalance
+            })).then(() => {
+                onSave({flowDate, accountId, categoryId, tagTitles, description, amount, isBalance});
+                close();
+            });
+        } else {
+            // create!
+            return dispatch(cashFlowsActions.createNew({
+                flowDate, accountId, categoryId, tagTitles, description, amount, isBalance
+            })).then(() => {
+                onSave({flowDate, accountId, categoryId, tagTitles, description, amount, isBalance});
+                close();
+            });
+        }
     }
 
     return (
         <Modal isOpen={isOpen} toggle={close}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <ModalHeader toggle={close}>Cash Flow</ModalHeader>
-                <ModalBody>
-                    <div className="form-group">
-                        <label>Date</label>
-                        <input name="flowDate" type="text" {...register('flowDate')} className={`form-control ${errors.flowDate ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.flowDate?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Account</label>
-                        <input name="accountId" type="text" {...register('accountId')} className={`form-control ${errors.accountId ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.accountId?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Category</label>
-                        <input name="categoryId" type="text" {...register('categoryId')} className={`form-control ${errors.categoryId ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.categoryId?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Tags</label>
-                        <input name="tagTitles" type="text" {...register('tagTitles')} className={`form-control ${errors.tagTitles ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.tagTitles?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Description</label>
-                        <input name="description" type="text" {...register('description')} className={`form-control ${errors.description ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.description?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Income / Outcome</label>
-                        <input name="isIncome" type="text" {...register('isIncome')} className={`form-control ${errors.isIncome ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.isIncome?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label>Amount</label>
-                        <input name="amount" type="text" {...register('amount')} className={`form-control ${errors.amount ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.amount?.message}</div>
-                    </div>
-                    <div className="form-group">
-                        <label title="For balance means that it's not accounted for Income/Outcome by Category">For Balance Purposes</label>
-                        <input name="isBalance" type="text" {...register('isBalance')} className={`form-control ${errors.isBalance ? 'is-invalid' : ''}`} />
-                        <div className="invalid-feedback">{errors.isBalance?.message}</div>
-                    </div>
-                    {error &&
-                    <div className="alert alert-danger mt-3 mb-0">{error.message}</div>
-                    }
-                </ModalBody>
-                <ModalFooter>
-                    <button disabled={isSubmitting} className="btn btn-primary mt-1">
-                        {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Save
-                    </button>
-                    <button disabled={isSubmitting} className="btn btn-primary mt-1" onClick={close}>
-                        {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Cancel
-                    </button>
-                </ModalFooter>
-            </form>
+            <FormProvider {...methods}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <ModalHeader toggle={close}>Cash Flow</ModalHeader>
+                    <ModalBody>
+                        <HookDatepicker
+                            label="Date"
+                            name="flowDate"
+                            control={control}
+                            error={errors.flowDate}
+                        />
+                        <HookSelect
+                            label="Account"
+                            name="accountId"
+                            options={accountOptions}
+                            control={control}
+                            error={errors.accountId}
+                        />
+                        <HookSelect
+                            label="Category"
+                            name="categoryId"
+                            options={categoriesOptions}
+                            control={control}
+                            error={errors.categoryId}
+                        />
+                        <HookMultiSelect
+                            label="Tags"
+                            name="tagTitles"
+                            options={tagsOptions}
+                            control={control}
+                            error={errors.tagTitles}
+                        />
+                        <HookInput
+                            label="Description"
+                            name="description"
+                            error={errors.description}
+                            register={register}
+                        />
+                        <HookRadios
+                            options={[{value: "true", label: "Income"},{value: "false", label: "Outcome"}]}
+                            name="isIncome"
+                            error={errors.isIncome}
+                            register={register}
+                        />
+                        <HookInput
+                            label="Amount"
+                            name="amount"
+                            error={errors.amount}
+                            register={register}
+                        />
+                        <HookCheckbox
+                            label="For Balance Purposes"
+                            title="For balance means that it's not accounted for Income/Outcome by Category"
+                            name="isBalance"
+                            error={errors.isBalance}
+                            register={register}
+                        />
+                        {error &&
+                        <div className="alert alert-danger mt-3 mb-0">{error.message}</div>
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <button disabled={isSubmitting} className="btn btn-primary mt-1">
+                            {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                            Save
+                        </button>
+                        <button type="button" disabled={isSubmitting} className="btn btn-secondary mt-1" onClick={close}>
+                            {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                            Cancel
+                        </button>
+                    </ModalFooter>
+                </form>
+            </FormProvider>
         </Modal>
     )
+}
+
+// form validation rules
+const validationSchema = Yup.object().shape({
+    flowDate: Yup.date('').required('Date is required'),
+    accountId: Yup.number('').required('Account is required'),
+    categoryId: Yup.number('').required('Category is required'),
+    tagTitles: Yup.array('').nullable(),
+    description: Yup.string('').nullable(),
+    isIncome: Yup.boolean('').required('Must indicate Income or Outcome'),
+    amount: Yup.number('').required('Amount is required'),
+    isBalance: Yup.boolean('').nullable()
+});
+
+const defaultValues = {
+    flowDate: new Date(),
+    accountId: null,
+    categoryId: null,
+    tagTitles: null,
+    description: null,
+    isIncome: "false",
+    amount: null,
+    isBalance: null
 }
 
 export { CashFlowForm };

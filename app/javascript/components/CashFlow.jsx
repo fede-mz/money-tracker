@@ -9,7 +9,7 @@ import { CashFlowForm } from ".";
 function CashFlow({ dateSelected, onCashFlowChange }) {
     const dispatch = useDispatch();
     const { cashFlows } = useCashFlowsSelector();
-    const [ showModal, setShowModal ] = useState(false);
+    const [ showModal, setShowModal ] = useState(null);
 
     useEffect(() => {
         const fromDate = dateSelected.clone().startOf('month').format('YYYY-MM-DD');
@@ -17,6 +17,12 @@ function CashFlow({ dateSelected, onCashFlowChange }) {
         dispatch(cashFlowsActions.getAll({ fromDate, toDate }));
     }, [dispatch, dateSelected]);
 
+    const editCashFlow = (cashFlow) => {
+        setShowModal({ cashFlow, copy: false });
+    }
+    const copyCashFlow = (cashFlow) => {
+        setShowModal({ cashFlow, copy: true });
+    }
     const createNewCashFlow = (cashFlow) => {
         onCashFlowChange(cashFlow);
     }
@@ -70,10 +76,10 @@ function CashFlow({ dateSelected, onCashFlowChange }) {
                     </div>
                     <div className="col-md-2">
                         <div className="btn-group">
-                            <button className="btn btn-link" disabled={true}>
+                            <button className="btn btn-link" onClick={() => editCashFlow(cashFlow)}>
                                 <i className="fa fa-edit"></i>
                             </button>
-                            <button className="btn btn-link" disabled={true}>
+                            <button className="btn btn-link" onClick={() => copyCashFlow(cashFlow)}>
                                 <i className="fa fa-copy"></i>
                             </button>
                             <button className="btn btn-link" onClick={() => deleteCashFlow(cashFlow)}>
@@ -89,11 +95,17 @@ function CashFlow({ dateSelected, onCashFlowChange }) {
             {cashFlows.error && <div className="text-danger">Error loading cash flow: {cashFlows.error.message}</div>}
 
             <div className="float-right">
-                <button className="btn btn-link" onClick={() => setShowModal(true)}>
+                <button className="btn btn-link" onClick={() => setShowModal({})}>
                     <i className="fa fa-3x fa-plus-circle text-primary"></i>
                 </button>
             </div>
-            <CashFlowForm isOpen={showModal} close={() => setShowModal(false)} onSave={createNewCashFlow}/>
+            <CashFlowForm
+                isOpen={showModal != null}
+                close={() => setShowModal(null)}
+                onSave={createNewCashFlow}
+                cashFlow={showModal?.cashFlow}
+                isCopy={showModal?.copy}
+            />
         </div>
     );
 }

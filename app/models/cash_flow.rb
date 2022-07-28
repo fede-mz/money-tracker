@@ -20,7 +20,7 @@ class CashFlow < ApplicationRecord
 
   # when a new cash flow is created, some of the snapshots can become invalid.
   after_save :invalidate_snapshots
-  before_destroy :invalidate_snapshots_destroy
+  before_destroy :invalidate_snapshots
 
   private
   def amount_currency_matches
@@ -30,10 +30,7 @@ class CashFlow < ApplicationRecord
   end
 
   def invalidate_snapshots
-    date = previous_changes[:flow_date].compact.min
+    date = previous_changes[:flow_date].nil? ? flow_date : previous_changes[:flow_date].compact.min
     account.invalidate_snapshots(date)
-  end
-  def invalidate_snapshots_destroy
-    account.invalidate_snapshots(flow_date)
   end
 end

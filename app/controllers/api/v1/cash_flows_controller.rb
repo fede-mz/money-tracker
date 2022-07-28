@@ -1,5 +1,5 @@
 class Api::V1::CashFlowsController < ApplicationController
-  load_and_authorize_resource only: [:destroy]
+  load_and_authorize_resource only: [:update, :destroy]
 
   # This action can receive params: from_date, to_date
   #  if not, date range is set for this month
@@ -12,18 +12,18 @@ class Api::V1::CashFlowsController < ApplicationController
   end
 
   def create
+    date = Date.parse(cash_flow_params[:flow_date]) if cash_flow_params[:flow_date]
     account = @current_user.accounts.find(cash_flow_params[:account_id])
     category = @current_user.categories.find(cash_flow_params[:category_id])
-    date = Date.parse(cash_flow_params[:flow_date]) if cash_flow_params[:flow_date]
     amount = Money.new(cash_flow_params[:amount].to_f * 100, account.currency) if cash_flow_params[:amount]
 
     saved = false
     ActiveRecord::Base.transaction do
       @cash_flow = CashFlow.new(
+        flow_date: date,
         account: account,
         category: category,
         description: cash_flow_params[:description],
-        flow_date: date,
         amount: amount,
         is_balance: cash_flow_params[:is_balance]
       )
@@ -35,6 +35,36 @@ class Api::V1::CashFlowsController < ApplicationController
       end
 
       saved = @cash_flow.save
+    end
+    if saved
+      render "show"
+    else
+      render json: { errors: @cash_flow.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    date = Date.parse(cash_flow_params[:flow_date]) if cash_flow_params[:flow_date]
+    account = @current_user.accounts.find(cash_flow_params[:account_id])
+    category = @current_user.categories.find(cash_flow_params[:category_id])
+    amount = Money.new(cash_flow_params[:amount].to_f * 100, account.currency) if cash_flow_params[:amount]
+
+    saved = false
+    ActiveRecord::Base.transaction do
+      saved = @cash_flow.update(
+        flow_date: date,
+        account: account,
+        category: category,
+        description: cash_flow_params[:description],
+        amount: amount,
+        is_balance: cash_flow_params[:is_balance]
+      )
+      @cash_flow.tags.delete_all
+      cash_flow_params[:tags]&.each do |tag|
+        @cash_flow.tags << Tag.find_or_create_by!(
+          user: @current_user, title: tag[:title]
+        )
+      end
     end
     if saved
       render "show"
@@ -79,10 +109,10 @@ class Api::V1::CashFlowsController < ApplicationController
 
   private
   def cash_flow_params
-    params.require(:cash_flow).permit(:account_id,
+    params.require(:cash_flow).permit(:flow_date,
+                                      :account_id,
                                       :category_id,
                                       :description,
-                                      :flow_date,
                                       :amount,
                                       :is_balance,
                                       tags: [:title])
