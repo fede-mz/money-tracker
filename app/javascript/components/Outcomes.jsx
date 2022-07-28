@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { RadialChart, LabelSeries } from "react-vis";
+import {PieChart, Pie, Tooltip, Cell} from 'recharts';
+import * as _ from 'lodash';
 import { useCashFlowsSelector, cashFlowsActions } from './../store';
 import {getColorForChart} from "../helpers";
 
@@ -16,13 +17,15 @@ function Outcomes({ dateSelected, currency }) {
         dispatch(cashFlowsActions.getByCategory({ fromDate, toDate, currency }));
     }, [dispatch, dateSelected, currency]);
 
-    const chartData = useMemo(() => byCategory?.data?.outcomes?.byCategories?.map( (d,i) => ({
-            angle: Math.abs(d.amountCents),
-            label: d.category.title,
-            subLabel: d.amount,
-            color: getColorForChart(i)
-        })),
-        [byCategory?.data]);
+    const chartData = useMemo(() => {
+            const data = byCategory?.data?.outcomes?.byCategories?.map( (d,i) => ({
+                value: Math.abs(d.amountCents),
+                name: `${d.category.title}: ${d.amount}`,
+                label: d.category.title,
+                color: getColorForChart(i)
+            }));
+            return _.sortBy(data,['label']);
+        }, [byCategory?.data]);
 
     return (
         <div>
@@ -32,20 +35,29 @@ function Outcomes({ dateSelected, currency }) {
                 </div>
             </div>
             {byCategory?.data?.outcomes?.byCategories &&
-                <div className="mt-3 text-center">
-                    <RadialChart
-                        colorType="literal"
-                        innerRadius={50}
-                        radius={170}
-                        data={chartData}
-                        color={d => d.color}
-                        width={400}
-                        height={400}
-                        animation={"gentle"}
-                        showLabels={true}
-                    />
+                <div>
+                    <PieChart width={400} height={300}>
+                        <Pie dataKey="value"
+                             data={chartData}
+                             innerRadius={40}
+                             outerRadius={80}
+                             paddingAngle={5}
+                             label={data => data.label}
+                        >
+                            {chartData.map((data, i) => (
+                                <Cell key={`data-${i}`} fill={data.color} />
+                            ))}
+                        </Pie>
+                        <Tooltip content={<ChartTooltip/>} />
+                    </PieChart>
+                    <p className="text-secondary">
+                        Total Incomes: <span className="text-success">{byCategory.data.incomes.total}</span>
+                    </p>
+                    <p className="text-secondary">
+                        Total Outcomes: <span className="text-danger">{byCategory.data.outcomes.total}</span>
+                    </p>
                     <p className="text-secondary mt-2">
-                        {byCategory.data.outcomes.total}
+                        Balance: <span className={byCategory.data.balanceCents < 0 ? "text-danger" : "text-success"}>{byCategory.data.balance}</span>
                     </p>
                 </div>
             }
@@ -54,5 +66,17 @@ function Outcomes({ dateSelected, currency }) {
         </div>
     );
 }
+
+const ChartTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-light p-2">
+                {payload[0].name}
+            </div>
+        );
+    }
+
+    return null;
+};
 
 export { Outcomes };

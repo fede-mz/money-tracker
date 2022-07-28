@@ -33,7 +33,7 @@ function createExtraActions() {
         ),
         getDetail: createAsyncThunk(
             `${name}/getDetail`,
-            async ({ accountId }) => await fetchWrapper.get(`${baseUrl}/${accountId}.json`)
+            async (accountId) => await fetchWrapper.get(`${baseUrl}/${accountId}.json`)
         )
     }
 }

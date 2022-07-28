@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import * as queryString from "querystring";
 import * as humps from "humps";
 import { fetchWrapper } from './../helpers';
 
@@ -37,7 +36,7 @@ function createExtraActions() {
         getAll: createAsyncThunk(
             `${name}/getAll`,
             async ({ fromDate, toDate }) => {
-                const params = queryString.stringify(humps.decamelizeKeys({ fromDate, toDate }));
+                const params = new URLSearchParams(humps.decamelizeKeys({ fromDate, toDate })).toString();
                 return await fetchWrapper.get(`${baseUrl}.json?${params}`);
             }
         ),
@@ -52,10 +51,15 @@ function createExtraActions() {
                     }
                 })
         ),
+        destroy: createAsyncThunk(
+            `${name}/destroy`,
+            async ({ id }) =>
+                await fetchWrapper.delete(`${baseUrl}/${id}.json`)
+        ),
         getByCategory: createAsyncThunk(
             `${name}/getByCategory`,
             async ({ fromDate, toDate, currency }) => {
-                const params = queryString.stringify(humps.decamelizeKeys({ fromDate, toDate, currency }));
+                const params = new URLSearchParams(humps.decamelizeKeys({ fromDate, toDate, currency })).toString();
                 return await fetchWrapper.get(`${baseUrl}/by_category.json?${params}`);
             }
         )
@@ -85,6 +89,18 @@ function createExtraReducers() {
             state.cashFlows.push(action.payload.cashFlow);
         },
         [extraActions.createNew.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.error;
+        },
+        [extraActions.destroy.pending]: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        [extraActions.destroy.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.cashFlows = state.cashFlows.filter(cashFlow => cashFlow.id != action.payload.cashFlow.id);
+        },
+        [extraActions.destroy.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.error;
         },

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :show]
       resources :categories, only: [:index]
       resources :tags, only: [:index]
-      resources :cash_flows, only: [:index, :create] do
+      resources :cash_flows, only: [:index, :create, :destroy] do
         get 'by_category', on: :collection
       end
     end

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useAuthSelector } from './../store';
+import {accountsActions, cashFlowsActions, useAuthSelector} from './../store';
 import moment from "moment";
 import { Accounts, Outcomes, CashFlow } from ".";
 
@@ -10,6 +10,17 @@ function MoneyTracker() {
     const { user } = useAuthSelector();
     const [dateSelected, setNewDate] = useState(moment());
     const month = dateSelected.format("MMM YYYY");
+
+    const handleCashFlowChange = (cashFlow) => {
+        // refresh outcomes
+        if (!cashFlow.isBalance) {
+            const fromDate = dateSelected.clone().startOf('month').format('YYYY-MM-DD');
+            const toDate = dateSelected.clone().endOf('month').format('YYYY-MM-DD');
+            dispatch(cashFlowsActions.getByCategory({fromDate, toDate, currency: user.primaryCurrency}));
+        }
+        // refresh account, but only the affected one
+        dispatch(accountsActions.getDetail(cashFlow.account?.id ?? cashFlow.accountId));
+    }
 
     return (
         <div className="row mt-5">
@@ -23,14 +34,14 @@ function MoneyTracker() {
                 </button>
             </div>
             <div className="col-lg-8 px-lg-3 col-md-12">
-                <CashFlow dateSelected={dateSelected} />
+                <CashFlow dateSelected={dateSelected} onCashFlowChange={handleCashFlowChange} />
             </div>
             <div className="col-lg-4 px-lg-3 col-md-12">
                 <div className="row">
-                    <div className="col-lg-12 col-md-6">
+                    <div className="col-lg-12 col-md-6 px-md-3">
                         <Accounts />
                     </div>
-                    <div className="col-lg-12 col-md-6 mt-lg-5">
+                    <div className="col-lg-12 col-md-6 mt-lg-5 px-md-3">
                         <Outcomes dateSelected={dateSelected} currency={user.primaryCurrency} />
                     </div>
                 </div>

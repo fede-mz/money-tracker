@@ -1,4 +1,5 @@
 class Api::V1::CashFlowsController < ApplicationController
+  load_and_authorize_resource only: [:destroy]
 
   # This action can receive params: from_date, to_date
   #  if not, date range is set for this month
@@ -42,6 +43,19 @@ class Api::V1::CashFlowsController < ApplicationController
     end
   end
 
+  def destroy
+    id = @cash_flow.id
+    destroyed = false
+    ActiveRecord::Base.transaction do
+      destroyed = @cash_flow.destroy
+    end
+    if destroyed
+      render json: { cashFlow: { id: id } }, status: :ok
+    else
+      render json: { error: "cash flow couldn't be deleted" }, status: :unprocessable_entity
+    end
+  end
+
   # cash flow by category
   # This action can receive params: from_date, to_date and currency,
   #  if not, date range is set for this month and currency to the primary_currency
@@ -60,6 +74,7 @@ class Api::V1::CashFlowsController < ApplicationController
                        .where(amount_currency: @currency)
                        .group(:category_id)
                        .sum(:amount_cents)
+    @balance = Money.new(@incomes.map(&:second).sum + @outcomes.map(&:second).sum, @currency)
   end
 
   private

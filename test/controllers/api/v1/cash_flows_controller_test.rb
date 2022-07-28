@@ -42,7 +42,7 @@ class Api::V1::CashFlowsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(2, body['cashFlows'].size, 'should return 2 cash_flows for the previous month')
   end
 
-  test 'create cash_flow record' do
+  test 'create cash_flow record and delete it' do
     token = login_user
 
     post '/api/v1/cash_flows.json', params: {
@@ -75,6 +75,11 @@ class Api::V1::CashFlowsControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
     assert_not_empty(body['errors']['flow_date'], 'should return errors')
     assert_not_empty(body['errors']['amount_cents'], 'should return errors')
+
+    delete '/api/v1/cash_flows/1.json', headers: { Authorization: token }
+    assert_response :success
+
+    assert_equal(0, CashFlow.all.count, 'cash flow should be deleted')
   end
 
   test 'cash_flow by category' do
