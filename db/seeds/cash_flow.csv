@@ -1,37 +1,127 @@
 Date,Category,Tags,Description,Amount,Is For Balance?,Account
-2022-06-30,Balance,,,252.5,yes,Efectivo
-2022-06-30,Balance,,,3135.2,yes,Banco Sabadell
-2022-06-30,Balance,,,1250.99,yes,Banco BBVA
-2022-07-01,Alquiler,Piso,,-550,no,Banco Sabadell
-2022-07-01,Servicios,Piso;Luz,,-98.55,no,Banco Sabadell
-2022-07-01,Servicios,Piso;Internet,,-48.14,no,Banco Sabadell
-2022-07-01,Nomina,Trabajo,,3000,no,Banco Sabadell
-2022-07-01,Balance,,extracción de Sabadell,-150,yes,Banco Sabadell
-2022-07-01,Balance,,extracción de Sabadell,150,yes,Efectivo
-2022-07-02,Entretenimiento,Videojuegos;Salida,,-35,no,Efectivo
-2022-07-02,Movilidad,Combustible,,-115,no,Banco BBVA
-2022-07-02,Ropa,Diario,,-16.99,no,Banco BBVA
-2022-07-02,Ropa,Deportiva,,-38.52,no,Banco BBVA
-2022-07-02,Ropa,Deportiva;Zapatillas,,-65.29,no,Banco BBVA
-2022-07-02,Ropa,Deportiva,,-6.34,no,Banco BBVA
-2022-07-02,Entretenimiento,Comida;Salida,,-48.27,no,Banco BBVA
-2022-07-03,Supermercado,Comida,,-70.9,no,Banco BBVA
-2022-07-03,Supermercado,Hogar,,-24.56,no,Banco BBVA
-2022-07-03,Supermercado,Mascota,,-26.89,no,Banco BBVA
-2022-07-03,Entretenimiento,Comida;Salida,helado,-12.35,no,Banco BBVA
-2022-07-04,Supermercado,Comida,,-17.7,no,Banco BBVA
-2022-07-07,Supermercado,Comida,,-31.45,no,Banco BBVA
-2022-07-07,Otros,Peluqueria,,-46,no,Banco BBVA
-2022-07-08,Movilidad,Arreglo,cubierta,-22,no,Banco BBVA
-2022-07-08,Entretenimiento,Comida;Salida,,-64.56,no,Banco BBVA
-2022-07-09,Supermercado,Comida,,-59.95,no,Banco BBVA
-2022-07-09,Supermercado,Hogar,,-11.14,no,Banco BBVA
-2022-07-15,Otros,Regalo,,-30,no,Efectivo
-2022-07-15,Entretenimiento,Bowling;Salida,,-24.72,no,Banco BBVA
-2022-07-15,Entretenimiento,Salida;Videojuegos,,-16,no,Banco BBVA
-2022-07-15,Movilidad,Estacionamiento;Salida,,-7,no,Banco BBVA
-2022-07-15,Balance,,transferencia,-1200,yes,Banco Sabadell
-2022-07-16,Balance,,transferencia,1200,yes,Banco BBVA
-2022-07-16,Movilidad,Combustible,,-107.63,no,Banco BBVA
-2022-07-17,Supermercado,Comida,,-39.9,no,Banco BBVA
-2022-07-19,Supermercado,Comida,,-13.14,no,Banco BBVA
+2021-12-31,Balance,,estado inicial,450,yes,Efectivo
+2021-12-31,Balance,,estado inicial,3135.2,yes,Banco Sabadell
+2021-12-31,Balance,,estado inicial,1250.99,yes,Banco BBVA
+2022-01-03,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-01-03,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-01-03,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-01-04,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-01-04,Servicios,Piso;Luz,,-99.55,no,Banco Sabadell
+2022-01-04,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-01-04,Servicios,Piso;Agua,,-26.82,no,Banco Sabadell
+2022-01-04,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-01-04,Mercado,Comida,,-649.32,no,Banco BBVA
+2022-01-04,Mercado,Hogar,,-31.12,no,Banco BBVA
+2022-01-04,Mercado,Hogar;Limpieza,,-64.46,no,Banco BBVA
+2022-01-04,Salidas,Comida,,-101.45,no,Banco BBVA
+2022-01-04,Salidas,Entretenimiento,,-30.64,no,Banco BBVA
+2022-01-04,Movilidad,Combustible,,-98.26,no,Banco Sabadell
+2022-01-04,Movilidad,Estacionamiento,,-10,no,Banco BBVA
+2022-01-04,Movilidad,Arreglo,,-974.25,no,Banco Sabadell
+2022-01-04,Ropa,Deporte,,-24.24,no,Banco BBVA
+2022-01-04,Ropa,Diario,,-18,no,Banco BBVA
+2022-01-04,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-01-04,Deporte,Paddel,,-15,no,Banco BBVA
+2022-01-04,Otros,Peluqueria,,-38,no,Efectivo
+2022-02-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-02-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-02-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-02-03,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-02-03,Servicios,Piso;Luz,,-88.55,no,Banco Sabadell
+2022-02-03,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-02-03,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-02-04,Mercado,Comida,,-442.25,no,Banco BBVA
+2022-02-04,Mercado,Hogar;Limpieza,,-46.78,no,Banco BBVA
+2022-02-04,Salidas,Comida,,-74.29,no,Banco BBVA
+2022-02-04,Salidas,Entretenimiento,,-40,no,Banco BBVA
+2022-02-04,Movilidad,Combustible,,-99.19,no,Banco Sabadell
+2022-02-04,Ropa,Deporte,,-56,no,Banco BBVA
+2022-02-04,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-02-04,Deporte,Paddel,,-15,no,Banco BBVA
+2022-02-04,Otros,Peluqueria,,-38,no,Efectivo
+2022-03-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-03-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-03-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-03-02,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-03-02,Servicios,Piso;Luz,,-93.74,no,Banco Sabadell
+2022-03-02,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-03-02,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-03-03,Mercado,Comida,,-635.5,no,Banco BBVA
+2022-03-03,Mercado,Hogar;Limpieza,,-12.21,no,Banco BBVA
+2022-03-03,Salidas,Comida,,-77.41,no,Banco BBVA
+2022-03-03,Salidas,Entretenimiento,,-34.9,no,Banco BBVA
+2022-03-03,Movilidad,Combustible,,-97.92,no,Banco Sabadell
+2022-03-03,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-03-03,Deporte,Paddel,,-15,no,Banco BBVA
+2022-03-03,Otros,Peluqueria,,-38,no,Efectivo
+2022-04-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-04-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-04-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-04-04,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-04-04,Servicios,Piso;Luz,,-101.52,no,Banco Sabadell
+2022-04-04,Servicios,Piso;Internet,,-55.69,no,Banco Sabadell
+2022-04-04,Servicios,Piso;Agua,,-26.82,no,Banco Sabadell
+2022-04-04,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-04-04,Mercado,Comida,,-527.58,no,Banco BBVA
+2022-04-04,Mercado,Hogar;Limpieza,,-44.35,no,Banco BBVA
+2022-04-04,Salidas,Comida,,-233.77,no,Banco BBVA
+2022-04-04,Salidas,Entretenimiento,,-132.71,no,Banco BBVA
+2022-04-04,Movilidad,Combustible,,-215.56,no,Banco Sabadell
+2022-04-04,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-04-04,Deporte,Paddel,,-15,no,Banco BBVA
+2022-04-04,Otros,Peluqueria,,-38,no,Efectivo
+2022-05-02,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-05-02,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-05-02,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-05-04,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-05-04,Servicios,Piso;Luz,,-99.99,no,Banco Sabadell
+2022-05-04,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-05-04,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-05-04,Mercado,Comida,,-636.74,no,Banco BBVA
+2022-05-04,Mercado,Hogar;Limpieza,,-25.36,no,Banco BBVA
+2022-05-04,Salidas,Comida,,-132,no,Banco BBVA
+2022-05-04,Salidas,Entretenimiento,,-4,no,Banco BBVA
+2022-05-04,Movilidad,Combustible,,-168,no,Banco Sabadell
+2022-05-04,Ropa,Deporte,,-62.61,no,Banco BBVA
+2022-05-04,Ropa,Diario,,-35.85,no,Banco BBVA
+2022-05-04,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-05-04,Deporte,Paddel,,-30,no,Banco BBVA
+2022-05-04,Otros,Peluqueria,,-38,no,Efectivo
+2022-06-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-06-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-06-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-06-02,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-06-02,Servicios,Piso;Luz,,-107.58,no,Banco Sabadell
+2022-06-02,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-06-02,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-06-03,Mercado,Comida,,-500.04,no,Banco BBVA
+2022-06-03,Mercado,Hogar;Limpieza,,-54.54,no,Banco BBVA
+2022-06-04,Salidas,Comida,,-276.46,no,Banco BBVA
+2022-06-04,Salidas,Entretenimiento,,-54.5,no,Banco BBVA
+2022-06-06,Movilidad,Combustible,,-235.08,no,Banco Sabadell
+2022-06-09,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-06-09,Deporte,Paddel,,-15,no,Banco BBVA
+2022-06-09,Otros,Peluqueria,,-38,no,Efectivo
+2022-07-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-07-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-07-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-07-01,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-07-01,Servicios,Piso;Luz,,-88.55,no,Banco Sabadell
+2022-07-01,Servicios,Piso;Internet,,-46.55,no,Banco Sabadell
+2022-07-01,Servicios,Piso;Agua,,-26.82,no,Banco Sabadell
+2022-07-01,Salud,Seguro,,-113.32,no,Banco Sabadell
+2022-07-05,Mercado,Comida,,-325.49,no,Banco BBVA
+2022-07-05,Mercado,Hogar;Limpieza,,-18.53,no,Banco BBVA
+2022-07-08,Salidas,Comida,,-28.8,no,Banco BBVA
+2022-07-08,Salidas,Entretenimiento,,-24,no,Banco BBVA
+2022-07-08,Movilidad,Combustible,,-95.74,no,Banco Sabadell
+2022-07-09,Ropa,Deporte,,-5.5,no,Banco BBVA
+2022-07-09,Deporte,Crossfit,,-50,no,Banco BBVA
+2022-07-09,Deporte,Paddel,,-45,no,Banco BBVA
+2022-07-13,Otros,Peluqueria,,-38,no,Efectivo
+2022-07-15,Mercado,Comida,,-13.46,no,Banco BBVA
+2022-07-17,Mercado,Comida,,-16.74,no,Banco BBVA
+2022-07-19,Mercado,Hogar;Limpieza,,-21.74,no,Banco BBVA
+2022-07-22,Salidas,Comida,,-62.57,no,Banco BBVA
+2022-07-22,Salidas,Entretenimiento,,-49,no,Banco BBVA
+2022-07-26,Mercado,Comida,,-27.89,no,Banco BBVA
