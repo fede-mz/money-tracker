@@ -29,6 +29,10 @@ SQLite 3
 * `bundle exec rake db:test:prepare`
 * `bundle exec rails test`
 
+### End 2 End Testing with Cypress
+Note: this is just for trying Cypress, it uses the development environment, so it is not isolated.
+* `./node_modules/cypress/bin/cypress run`
+
 ## Future Features
 * Manage Accounts, Categories and Tags (create tags while typing in CashFlowForm)
 * Outcomes by category, allow filtering by tags
