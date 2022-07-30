@@ -125,3 +125,10 @@ Date,Category,Tags,Description,Amount,Is For Balance?,Account
 2022-07-22,Salidas,Comida,,-62.57,no,Banco BBVA
 2022-07-22,Salidas,Entretenimiento,,-49,no,Banco BBVA
 2022-07-26,Mercado,Comida,,-27.89,no,Banco BBVA
+2022-08-01,Nomina,Trabajo,,2999,no,Banco Sabadell
+2022-08-01,Balance,,traspaso de cuentas,-1200,yes,Banco Sabadell
+2022-08-01,Balance,,traspaso de cuentas,1200,yes,Banco BBVA
+2022-08-01,Alquiler,Piso,,-400,no,Banco Sabadell
+2022-08-01,Servicios,Piso;Luz,,-96.25,no,Banco Sabadell
+2022-08-01,Servicios,Piso;Internet,,-49.45,no,Banco Sabadell
+2022-08-01,Salud,Seguro,,-113.32,no,Banco Sabadell
