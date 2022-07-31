@@ -29,6 +29,8 @@ SQLite 3
 * `bundle exec rake db:test:prepare`
 * `bundle exec rails test`
 
+Take a look at the branch `testing_with_cypress` for a WIP on E2E testing with cypress.
+
 ## Future Features
 * Manage Accounts, Categories and Tags (create tags while typing in CashFlowForm)
 * Outcomes by category, allow filtering by tags
