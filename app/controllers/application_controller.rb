@@ -15,6 +15,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from JWT::ExpiredSignature do |exception|
+    respond_to do |format|
+      format.json { head :forbidden, content_type: 'text/html' }
+    end
+  end
+
 
   private
   def authenticate_request

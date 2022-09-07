@@ -36,7 +36,6 @@ Take a look at the branch `testing_with_cypress` for a WIP on E2E testing with c
 * Outcomes by category, allow filtering by tags
 * Allow the user to have more than one currency (and convert currencies to show a single result)
 * Compare Outcome by Category with the budget
-* Add a way to record annual expenses and reminders
 * Calculate an average of outcomes for the last X months.
   * Make sure that annual payments are proportionally computed
   * example: car insurance is billed annually, so we should take that amount and divide by 12 to know the average 
