@@ -18,9 +18,9 @@ class CashFlow < ApplicationRecord
   scope :incomes, -> { where('amount_cents > 0').where(is_balance: false) }
   scope :outcomes, -> { where('amount_cents < 0').where(is_balance: false) }
 
-  # when a new cash flow is created, some of the snapshots can become invalid.
-  after_save :invalidate_snapshots
-  before_destroy :invalidate_snapshots
+  # when a new cash flow is created, cache can become invalid.
+  after_save :invalidate_cache
+  before_destroy :invalidate_cache
 
   private
   def amount_currency_matches
@@ -29,8 +29,8 @@ class CashFlow < ApplicationRecord
     end
   end
 
-  def invalidate_snapshots
+  def invalidate_cache
     date = previous_changes[:flow_date].nil? ? flow_date : previous_changes[:flow_date].compact.min
-    account.invalidate_snapshots(date)
+    account.invalidate_cache(date)
   end
 end

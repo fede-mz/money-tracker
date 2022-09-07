@@ -25,13 +25,6 @@ class Api::V1::AccountsControllerTest < ActionDispatch::IntegrationTest
     body = JSON.parse(response.body)
 
     assert_equal('€1.426,62', body['account']['balance'], 'should return the current balance')
-
-    # get account detail with balance again
-    get "/api/v1/accounts/#{account_id}.json", headers: { Authorization: token }
-    assert_response :success
-
-    assert_equal(1, AccountSnapshot.count, 'should create only one snapshot')
-    assert_equal(1500_00, AccountSnapshot.first.balance_cents, 'snapshot balance should be 1500')
   end
 
   test 'Unauthorized access to Account' do

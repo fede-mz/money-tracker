@@ -11,19 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
-  create_table "account_snapshots", force: :cascade do |t|
-    t.integer "account_id"
-    t.date "snapshot_date", null: false
-    t.integer "balance_cents", default: 0, null: false
-    t.string "balance_currency", default: "EUR", null: false
-    t.index ["account_id"], name: "index_account_snapshots_on_account_id"
-    t.index ["snapshot_date"], name: "index_account_snapshots_on_snapshot_date"
-  end
-
   create_table "accounts", force: :cascade do |t|
     t.integer "user_id"
     t.string "title", null: false
     t.string "currency", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
@@ -35,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "EUR", null: false
     t.boolean "is_balance", default: false, null: false
+    t.boolean "is_annualized", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_cash_flows_on_account_id"
@@ -74,7 +68,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_23_170458) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "account_snapshots", "accounts"
   add_foreign_key "accounts", "users"
   add_foreign_key "cash_flows", "accounts"
   add_foreign_key "cash_flows", "categories"

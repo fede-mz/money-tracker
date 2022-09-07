@@ -13,6 +13,8 @@ class Initial < ActiveRecord::Migration[7.0]
       t.references :user, foreign_key: true
       t.string :title, null: false
       t.string :currency, null: false
+
+      t.timestamps
     end
 
     create_table :categories do |t|
@@ -33,6 +35,7 @@ class Initial < ActiveRecord::Migration[7.0]
       t.date :flow_date, null: false, index: true
       t.monetize :amount, amount: { null: false }, currency: { null: false }
       t.boolean :is_balance, null: false, default: false
+      t.boolean :is_annualized, null: false, default: false
 
       t.timestamps
     end
@@ -41,12 +44,6 @@ class Initial < ActiveRecord::Migration[7.0]
       t.index :cash_flow_id
       t.index :tag_id
       t.index [:cash_flow_id, :tag_id], unique: true
-    end
-
-    create_table :account_snapshots do |t|
-      t.references :account, foreign_key: true
-      t.date :snapshot_date, null: false, index: true
-      t.monetize :balance, amount: { null: false }, currency: { null: false }
     end
 
   end
