@@ -16,7 +16,7 @@ class Account < ApplicationRecord
   #  using cache, we only need to calculate the balance for records outside the cache
   def balance
     prev_month = 1.month.ago.end_of_month.to_date
-    prev_month_balance = Rails.cache.fetch("#{cache_key_with_version}/prev_month_balance", expires_in: 24.hours) do
+    prev_month_balance = Rails.cache.fetch("#{cache_key_with_version}/prev_month_balance/#{prev_month.strftime('%Y-%m-%d')}", expires_in: 24.hours) do
       cash_flows_for_balance = cash_flows.where('flow_date <= ?', prev_month)
       cash_flows_for_balance.pluck(:amount_cents).sum
     end
